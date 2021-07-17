@@ -291,6 +291,7 @@ def oil_price():
     target_url = 'https://gas.goodlife.tw/'
     rs = requests.session()
     res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     title = soup.select('#main')[0].text.replace('\n', '').split('(')[0]
     gas_price = soup.select('#gas-price')[0].text.replace('\n\n\n', '').replace(' ', '')
@@ -321,7 +322,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if event.message.text == "來張 imgur 正妹圖片":
+    if event.message.text == "來張 imgur 圖片":
         client = ImgurClient(client_id, client_secret)
         images = client.get_album_images(album_id)
         index = random.randint(0, len(images) - 1)
@@ -333,7 +334,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token, image_message)
         return 0
-    if event.message.text == "隨便來張正妹圖片":
+    if event.message.text == "正妹圖片":
         image = requests.get(API_Get_Image)
         url = image.json().get('Url')
         image_message = ImageSendMessage(
@@ -406,8 +407,8 @@ def handle_message(event):
                         text='看廢文'
                     ),
                     MessageTemplateAction(
-                        label='正妹',
-                        text='正妹'
+                        label='毛毛',
+                        text='毛毛'
                     )
                 ]
             )
@@ -468,7 +469,7 @@ def handle_message(event):
         buttons_template = TemplateSendMessage(
             alt_text='看廢文 template',
             template=ButtonsTemplate(
-                title='你媽知道你在看廢文嗎',
+                title='想看廢文嗎',
                 text='請選擇',
                 thumbnail_image_url='https://i.imgur.com/ocmxAdS.jpg',
                 actions=[
@@ -485,25 +486,21 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, buttons_template)
         return 0
-    if event.message.text == "正妹":
+    if event.message.text == "毛毛":
         buttons_template = TemplateSendMessage(
-            alt_text='正妹 template',
+            alt_text='毛毛 template',
             template=ButtonsTemplate(
                 title='選擇服務',
                 text='請選擇',
-                thumbnail_image_url='https://i.imgur.com/qKkE2bj.jpg',
+                thumbnail_image_url='https://imgur.com/DwDeYaT.jpg',
                 actions=[
                     MessageTemplateAction(
-                        label='PTT 表特版 近期大於 10 推的文章',
+                        label='PTT 表特版',
                         text='PTT 表特版 近期大於 10 推的文章'
                     ),
                     MessageTemplateAction(
-                        label='來張 imgur 正妹圖片',
-                        text='來張 imgur 正妹圖片'
-                    ),
-                    MessageTemplateAction(
-                        label='隨便來張正妹圖片',
-                        text='隨便來張正妹圖片'
+                        label='來張 imgur 圖片',
+                        text='來張 imgur 圖片'
                     )
                 ]
             )
@@ -516,9 +513,9 @@ def handle_message(event):
             template=ImageCarouselTemplate(
                 columns=[
                     ImageCarouselColumn(
-                        image_url='https://i.imgur.com/g8zAYMq.jpg',
+                        image_url='https://imgur.com/hUl9Y0B.jpg',
                         action=URIAction(
-                            label='加我好友試玩',
+                            label='x加我好友試玩',
                             uri='https://line.me/R/ti/p/%40gmy1077x'
                         ),
                     ),
@@ -541,7 +538,7 @@ def handle_message(event):
         template=CarouselTemplate(
             columns=[
                 CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/kzi5kKy.jpg',
+                    thumbnail_image_url='https://imgur.com/wIsVvvX.jpg',
                     title='選擇服務',
                     text='請選擇',
                     actions=[
@@ -550,8 +547,8 @@ def handle_message(event):
                             text='開始玩'
                         ),
                         URIAction(
-                            label='影片介紹 阿肥bot',
-                            uri='https://youtu.be/1IxtWgWxtlE'
+                            label='乾杯MV',
+                            uri='https://studio.youtube.com/video/qXeS7MzsjLY/edit'
                         ),
                         URIAction(
                             label='如何建立自己的 Line Bot',
@@ -560,7 +557,7 @@ def handle_message(event):
                     ]
                 ),
                 CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/DrsmtKS.jpg',
+                    thumbnail_image_url='https://imgur.com/8vH3dft.jpg',
                     title='選擇服務',
                     text='請選擇',
                     actions=[
@@ -573,8 +570,8 @@ def handle_message(event):
                             text='油價查詢'
                         ),
                         URIAction(
-                            label='聯絡作者',
-                            uri='https://www.facebook.com/TWTRubiks?ref=bookmarks'
+                            label='海海人生',
+                            uri='https://youtu.be/FIERGaOn3gY'
                         )
                     ]
                 ),
@@ -585,10 +582,10 @@ def handle_message(event):
                     actions=[
                         URIAction(
                             label='分享 bot',
-                            uri='https://line.me/R/nv/recommendOA/@vbi2716y'
+                            uri='https://line.me/R/nv/recommendOA/@932xhoiw'
                         ),
                         URIAction(
-                            label='PTT正妹網',
+                            label='PTT',
                             uri='https://ptt-beauty-infinite-scroll.herokuapp.com/'
                         ),
                         URIAction(
