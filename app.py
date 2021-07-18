@@ -104,21 +104,18 @@ def movieo():
     return content
 
 def apple_news2():
-    target_url = 'https://tw.appledaily.com/new/realtime'
+    target_url = 'https://www.ettoday.net/?from=rf'
     rs = requests.session()
     res = rs.get(target_url, verify=False)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')   
     content = ""
-    for index, data in enumerate(soup.select('div.item a')):
-        if index ==10:           
-            return content
-        print(data)  
-        title = data.find('img')['alt']
+    for index, data in enumerate(soup.select('div.txt h3 a')):
+        if index == 20:
+            return content       
+        title = data.text
         link =  data['href']
-        link2 = 'https:'+ data.find('img')['data-src']
-        data='{}\n{}\n{}\n'.format(title,link,link2)
-        content += data
+        content += '{}\n{}\n'.format(title, link)
     return content
 
 def get_page_number(content):
@@ -455,9 +452,9 @@ def handle_message(event):
         return 0
     
     if event.message.text == "蘋果最新新聞":
-        content=apple_news2()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-
+        a=apple_news2()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
     if event.message.text == "開始玩":
         buttons_template = TemplateSendMessage(
             alt_text='開始玩 template',
