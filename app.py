@@ -90,19 +90,17 @@ def apple_news():
 
 def movieo():
     target_url = 'https://movies.yahoo.com.tw/'
-    print('Start parsing yahoomovie....')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')   
     content = ""
-    for index, data in enumerate(soup.select('div.movielist_info h1 a')):
+    for index, data in enumerate(soup.select('div.movielist_info h2 a')):
         if index == 20:
             return content       
         title = data.text
         link =  data['href']
-        dat = '{}\n{}\n'.format(title, link)
-        content += dat
+        content += '{}\n{}\n'.format(title, link)
     return content
 
 def apple_news2():
@@ -376,10 +374,8 @@ def handle_message(event):
     '''
 
     if event.message.text == "最新電影資訊":
-        content=movieo()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
+        a=movieo()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
     if event.message.text == "來張 imgur 圖片":
@@ -625,7 +621,7 @@ def handle_message(event):
                         ),
                         URIAction(
                             label='乾杯MV',
-                            uri='https://studio.youtube.com/video/qXeS7MzsjLY/edit'
+                            uri='https://youtu.be/qXeS7MzsjLY'
                         ),
                         URIAction(
                             label='海海人生MV',
