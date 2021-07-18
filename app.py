@@ -615,7 +615,7 @@ def handle_message(event):
         template=CarouselTemplate(
             columns=[
                 CarouselColumn(
-                    thumbnail_image_url='https://imgur.com/wIsVvvX.jpg',
+                    thumbnail_image_url='https://i.imgur.com/AdHZG7E.jpg',
                     title='選擇服務',
                     text='請選擇',
                     actions=[
@@ -630,10 +630,6 @@ def handle_message(event):
                         URIAction(
                             label='海海人生MV',
                             uri='https://youtu.be/FIERGaOn3gY'
-                        ),
-                        MessageAction(
-                            label='油價查詢',
-                            text='油價查詢'
                         )
                     ]
                 ),
@@ -643,7 +639,7 @@ def handle_message(event):
                     text='請選擇',
                     actions=[
                         MessageAction(
-                            label='其他bot',
+                            label='other bot',
                             text='應聲蟲 bot'
                         ),
                         MessageAction(
@@ -659,7 +655,8 @@ def handle_message(event):
                 CarouselColumn(
                     thumbnail_image_url='https://i.imgur.com/h4UzRit.jpg',
                     title='選擇服務',
-                    text='請選擇',                        actions=[
+                    text='請選擇',
+                    actions=[
                         URIAction(
                             label='分享 bot',
                             uri='https://line.me/R/nv/recommendOA/@932xhoiw'
