@@ -281,7 +281,7 @@ def moto():
     content = ""
     for data in soup.select('div'):
         title = data.text
-        content += '{}\n{}\n\n'.format(title, link)
+        content += '{}\n{}\n\n'.format(title)
     return content
 '''
 def movie():
@@ -610,75 +610,73 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if event.message.text == "目錄":
-        carousel_template_message = TemplateSendMessage(
-            alt_text='目錄 template',
-            template=CarouselTemplate(
-                columns=[
-                    CarouselColumn(
-                        thumbnail_image_url='https://imgur.com/wIsVvvX.jpg',
-                        title='選擇服務',
-                        text='請選擇',
-                        actions=[
-                            MessageAction(
-                                label='開始玩',
-                                text='開始玩'
-                            ),
-                            URIAction(
-                                label='乾杯MV',
-                                uri='https://studio.youtube.com/video/qXeS7MzsjLY/edit'
-                            ),
-                            URIAction(
-                                label='海海人生MV',
-                                uri='https://youtu.be/FIERGaOn3gY'
-                            ),
-                            MessageAction(
-                                label='油價查詢',
-                                text='油價查詢'
-                            )
-                        ]
-                    ),
-                    CarouselColumn(
-                        thumbnail_image_url='https://imgur.com/8vH3dft.jpg',
-                        title='選擇服務',
-                        text='請選擇',
-                        actions=[
-                            MessageAction(
-                                label='其他bot',
-                                text='應聲蟲 bot'
-                            ),
-                            MessageAction(
-                                label='油價查詢',
-                                text='油價查詢'
-                            ),
-                            URIAction(
-                                label='棒球防疫',
-                                uri='https://youtu.be/-mlo3rqQUAI'
-                            )
-                        ]
-                    ),
-                    CarouselColumn(
-                        thumbnail_image_url='https://i.imgur.com/h4UzRit.jpg',
-                        title='選擇服務',
-                        text='請選擇',
-                        actions=[
-                            URIAction(
-                                label='分享 bot',
-                                uri='https://line.me/R/nv/recommendOA/@932xhoiw'
-                            ),
-                            URIAction(
-                                label='PTT',
-                                uri='https://www.ptt.cc/bbs/hotboards.html'
-                            ),
-                            URIAction(
-                                label='羅時豐 不務正YA',
-                                uri='https://www.youtube.com/channel/UCL2xWAoY0XAcAdoYiRGwMQw'
-                            )
-                        ]
-                    )
-                ]
-            )
+    carousel_template_message = TemplateSendMessage(
+        alt_text='目錄 template',
+        template=CarouselTemplate(
+            columns=[
+                CarouselColumn(
+                    thumbnail_image_url='https://imgur.com/wIsVvvX.jpg',
+                    title='選擇服務',
+                    text='請選擇',
+                    actions=[
+                        MessageAction(
+                            label='開始玩',
+                            text='開始玩'
+                        ),
+                        URIAction(
+                            label='乾杯MV',
+                            uri='https://studio.youtube.com/video/qXeS7MzsjLY/edit'
+                        ),
+                        URIAction(
+                            label='海海人生MV',
+                            uri='https://youtu.be/FIERGaOn3gY'
+                        ),
+                        MessageAction(
+                            label='油價查詢',
+                            text='油價查詢'
+                        )
+                    ]
+                ),
+                CarouselColumn(
+                    thumbnail_image_url='https://imgur.com/8vH3dft.jpg',
+                    title='選擇服務',
+                    text='請選擇',
+                    actions=[
+                        MessageAction(
+                            label='其他bot',
+                            text='應聲蟲 bot'
+                        ),
+                        MessageAction(
+                            label='油價查詢',
+                            text='油價查詢'
+                        ),
+                        URIAction(
+                            label='棒球防疫',
+                            uri='https://youtu.be/-mlo3rqQUAI'
+                        )
+                    ]
+                ),
+                CarouselColumn(
+                    thumbnail_image_url='https://i.imgur.com/h4UzRit.jpg',
+                    title='選擇服務',
+                    text='請選擇',                        actions=[
+                        URIAction(
+                            label='分享 bot',
+                            uri='https://line.me/R/nv/recommendOA/@932xhoiw'
+                        ),
+                        URIAction(
+                            label='PTT',
+                            uri='https://www.ptt.cc/bbs/hotboards.html'
+                        ),
+                        URIAction(
+                            label='羅時豐 不務正YA',
+                            uri='https://www.youtube.com/channel/UCL2xWAoY0XAcAdoYiRGwMQw'
+                        )
+                    ]
+                )
+            ]
         )
+    )
 
     line_bot_api.reply_message(event.reply_token, carousel_template_message)
 
