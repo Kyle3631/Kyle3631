@@ -5,7 +5,7 @@ import configparser
 from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
-
+from urllib.request import urlretrieve
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -42,7 +42,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
 
-    return 'ok'
+    return '哈囉! 阿叔'
 
 
 def pattern_mega(text):
@@ -54,7 +54,7 @@ def pattern_mega(text):
         if re.search(pattern, text, re.IGNORECASE):
             return True
 
-
+'''
 def eyny_movie():
     target_url = 'http://www.eyny.com/forum-205-1.html'
     print('Start parsing eynyMovie....')
@@ -86,7 +86,39 @@ def apple_news():
         link = data['href']
         content += '{}\n\n'.format(link)
     return content
+'''
 
+def movieo():
+    target_url = 'https://movies.yahoo.com.tw/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.movielist_info h1 a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
+
+def apple_news2():
+    target_url = 'https://tw.appledaily.com/new/realtime'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.item a')):
+        if index ==10:           
+            return content
+        print(data)  
+        title = data.find('img')['alt']
+        link =  data['href']
+        link2 = 'https:'+ data.find('img')['data-src']
+        content+='{}\n{}\n{}\n'.format(title,link,link2)
+    return content
 
 def get_page_number(content):
     start_index = content.find('index')
@@ -274,7 +306,7 @@ def technews():
 
 
 def panx():
-    target_url = 'https://panx.asia/'
+    target_url = 'https://panx.asia/' #泛科技
     print('Start parsing ptt hot....')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
@@ -304,24 +336,32 @@ def oil_price():
 def handle_message(event):
     print("event.reply_token:", event.reply_token)
     print("event.message.text:", event.message.text)
+    '''
     if event.message.text.lower() == "eyny":
         content = eyny_movie()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+    
     if event.message.text == "蘋果即時新聞":
-        content = apple_news()
+        content = movie()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if event.message.text == "PTT 表特版 近期大於 10 推的文章":
+    '''
+    if event.message.text == "最新電影資訊":
+        a=movieo()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        '''
+    if event.message.text == 'PTT 表特版 近期大於 10 推的文章':
         content = ptt_beauty()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+        '''
     if event.message.text == "來張 imgur 圖片":
         client = ImgurClient(client_id, client_secret)
         images = client.get_album_images(album_id)
@@ -334,6 +374,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token, image_message)
         return 0
+        '''
     if event.message.text == "正妹圖片":
         image = requests.get(API_Get_Image)
         url = image.json().get('Url')
@@ -344,6 +385,8 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token, image_message)
         return 0
+        '''
+      
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
         line_bot_api.reply_message(
@@ -386,6 +429,11 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+    
+    if event.message.text == "蘋果最新新聞":
+        a=apple_news2()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+
     if event.message.text == "開始玩":
         buttons_template = TemplateSendMessage(
             alt_text='開始玩 template',
@@ -397,7 +445,8 @@ def handle_message(event):
                     MessageTemplateAction(
                         label='新聞',
                         text='新聞'
-                    ),
+                    )
+                    ,
                     MessageTemplateAction(
                         label='電影',
                         text='電影'
@@ -423,10 +472,7 @@ def handle_message(event):
                 text='請選擇',
                 thumbnail_image_url='https://i.imgur.com/vkqbLnz.png',
                 actions=[
-                    MessageTemplateAction(
-                        label='蘋果即時新聞',
-                        text='蘋果即時新聞'
-                    ),
+                    
                     MessageTemplateAction(
                         label='科技新報',
                         text='科技新報'
@@ -434,6 +480,10 @@ def handle_message(event):
                     MessageTemplateAction(
                         label='PanX泛科技',
                         text='PanX泛科技'
+                    ),
+                    MessageTemplateAction(
+                        label='蘋果日報',
+                        text='蘋果最新新聞'
                     )
                 ]
             )
@@ -449,16 +499,16 @@ def handle_message(event):
                 thumbnail_image_url='https://i.imgur.com/sbOTJt4.png',
                 actions=[
                     MessageTemplateAction(
-                        label='近期上映電影',
+                        label='x近期上映電影',
                         text='近期上映電影'
                     ),
                     MessageTemplateAction(
-                        label='eyny',
-                        text='eyny'
+                        label='蘋果日報',
+                        text='蘋果最新新聞'
                     ),
                     MessageTemplateAction(
-                        label='觸電網-youtube',
-                        text='觸電網-youtube'
+                        label='最新電影資訊',
+                        text='最新電影資訊'
                     )
                 ]
             )
@@ -495,11 +545,11 @@ def handle_message(event):
                 thumbnail_image_url='https://imgur.com/DwDeYaT.jpg',
                 actions=[
                     MessageTemplateAction(
-                        label='PTT 表特版',
+                        label='xPTT 表特版',
                         text='PTT 表特版 近期大於 10 推的文章'
                     ),
                     MessageTemplateAction(
-                        label='來張 imgur 圖片',
+                        label='來張毛毛們の圖片',
                         text='來張 imgur 圖片'
                     )
                 ]
@@ -507,7 +557,7 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, buttons_template)
         return 0
-    if event.message.text == "imgur bot":
+    if event.message.text == "應聲蟲 bot":
         carousel_template_message = TemplateSendMessage(
             alt_text='ImageCarousel template',
             template=ImageCarouselTemplate(
@@ -515,8 +565,8 @@ def handle_message(event):
                     ImageCarouselColumn(
                         image_url='https://imgur.com/hUl9Y0B.jpg',
                         action=URIAction(
-                            label='x加我好友試玩',
-                            uri='https://line.me/R/ti/p/%40gmy1077x'
+                            label='加我好友試玩應聲蟲',
+                            uri='https://liff.line.me/1645278921-kWRPP32q?accountId=082gjlvw&openerPlatform=native&openerKey=home%3Arecommend#mst_challenge=49UsXRNkPheJ8kjMEO7dNJwIG8_bA8fU6VH7m94a8F0'
                         ),
                     ),
                 ]
@@ -551,8 +601,12 @@ def handle_message(event):
                             uri='https://studio.youtube.com/video/qXeS7MzsjLY/edit'
                         ),
                         URIAction(
-                            label='如何建立自己的 Line Bot',
-                            uri='https://github.com/twtrubiks/line-bot-tutorial'
+                            label='海海人生MV',
+                            uri='https://youtu.be/FIERGaOn3gY'
+                        ),
+                        MessageAction(
+                            label='油價查詢',
+                            text='油價查詢'
                         )
                     ]
                 ),
@@ -562,16 +616,16 @@ def handle_message(event):
                     text='請選擇',
                     actions=[
                         MessageAction(
-                            label='other bot',
-                            text='imgur bot'
+                            label='其他bot',
+                            text='應聲蟲 bot'
                         ),
                         MessageAction(
                             label='油價查詢',
                             text='油價查詢'
                         ),
                         URIAction(
-                            label='海海人生',
-                            uri='https://youtu.be/FIERGaOn3gY'
+                            label='棒球防疫',
+                            uri='https://youtu.be/-mlo3rqQUAI'
                         )
                     ]
                 ),
@@ -586,11 +640,11 @@ def handle_message(event):
                         ),
                         URIAction(
                             label='PTT',
-                            uri='https://ptt-beauty-infinite-scroll.herokuapp.com/'
+                            uri='https://www.ptt.cc/bbs/hotboards.html'
                         ),
                         URIAction(
-                            label='youtube 程式教學分享頻道',
-                            uri='https://www.youtube.com/channel/UCPhn2rCqhu0HdktsFjixahA'
+                            label='羅時豐 不務正YA',
+                            uri='https://www.youtube.com/channel/UCL2xWAoY0XAcAdoYiRGwMQw'
                         )
                     ]
                 )
