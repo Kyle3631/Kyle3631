@@ -13,7 +13,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
-
+#PTT 表特版 近期大於 10 推的文章 此功能尚未開放
 app = Flask(__name__)
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -90,6 +90,7 @@ def apple_news():
 
 def movieo():
     target_url = 'https://movies.yahoo.com.tw/'
+    print('Start parsing yahoomovie....')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
     res.encoding = 'utf-8'
@@ -100,7 +101,8 @@ def movieo():
             return content       
         title = data.text
         link =  data['href']
-        content += '{}\n{}\n'.format(title, link)
+        dat = '{}\n{}\n'.format(title, link)
+        content += dat
     return content
 
 def apple_news2():
@@ -117,7 +119,8 @@ def apple_news2():
         title = data.find('img')['alt']
         link =  data['href']
         link2 = 'https:'+ data.find('img')['data-src']
-        content+='{}\n{}\n{}\n'.format(title,link,link2)
+        data='{}\n{}\n{}\n'.format(title,link,link2)
+        content += data
     return content
 
 def get_page_number(content):
@@ -269,7 +272,18 @@ def ptt_hot():
         content += '{}\n{}\n\n'.format(title, link)
     return content
 
-
+def moto():
+    target_url = 'https://www.moto7.net/'
+    print('Start parsing moto7....')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+    for data in soup.select('div'):
+        title = data.text
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
+'''
 def movie():
     target_url = 'http://www.atmovies.com.tw/movie/next/0/'
     print('Start parsing movie ...')
@@ -285,7 +299,7 @@ def movie():
         link = "http://www.atmovies.com.tw" + data['href']
         content += '{}\n{}\n'.format(title, link)
     return content
-
+'''
 
 def technews():
     target_url = 'https://technews.tw/'
@@ -350,18 +364,24 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    '''
-    if event.message.text == "最新電影資訊":
-        a=movieo()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
-        '''
+    
+    
+        
     if event.message.text == 'PTT 表特版 近期大於 10 推的文章':
         content = ptt_beauty()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-        '''
+    '''
+
+    if event.message.text == "最新電影資訊":
+        content=movieo()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+
     if event.message.text == "來張 imgur 圖片":
         client = ImgurClient(client_id, client_secret)
         images = client.get_album_images(album_id)
@@ -386,7 +406,13 @@ def handle_message(event):
             event.reply_token, image_message)
         return 0
         '''
-      
+    if event.message.text == "moto":
+        content =moto()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
         line_bot_api.reply_message(
@@ -399,12 +425,14 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+    
     if event.message.text == "近期上映電影":
-        content = movie()
+        
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=content))
+            TextSendMessage(text='此功能尚未開放'))
         return 0
+
     if event.message.text == "觸電網-youtube":
         target_url = 'https://www.youtube.com/user/truemovie1/videos'
         rs = requests.session()
@@ -431,8 +459,8 @@ def handle_message(event):
         return 0
     
     if event.message.text == "蘋果最新新聞":
-        a=apple_news2()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        content=apple_news2()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
 
     if event.message.text == "開始玩":
         buttons_template = TemplateSendMessage(
@@ -542,11 +570,11 @@ def handle_message(event):
             template=ButtonsTemplate(
                 title='選擇服務',
                 text='請選擇',
-                thumbnail_image_url='https://imgur.com/DwDeYaT.jpg',
+                thumbnail_image_url='https://imgur.com/zN0pSfR.jpg',
                 actions=[
                     MessageTemplateAction(
-                        label='xPTT 表特版',
-                        text='PTT 表特版 近期大於 10 推的文章'
+                        label='X',
+                        text='此功能尚未開放'
                     ),
                     MessageTemplateAction(
                         label='來張毛毛們の圖片',
@@ -582,75 +610,75 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-
-    carousel_template_message = TemplateSendMessage(
-        alt_text='目錄 template',
-        template=CarouselTemplate(
-            columns=[
-                CarouselColumn(
-                    thumbnail_image_url='https://imgur.com/wIsVvvX.jpg',
-                    title='選擇服務',
-                    text='請選擇',
-                    actions=[
-                        MessageAction(
-                            label='開始玩',
-                            text='開始玩'
-                        ),
-                        URIAction(
-                            label='乾杯MV',
-                            uri='https://studio.youtube.com/video/qXeS7MzsjLY/edit'
-                        ),
-                        URIAction(
-                            label='海海人生MV',
-                            uri='https://youtu.be/FIERGaOn3gY'
-                        ),
-                        MessageAction(
-                            label='油價查詢',
-                            text='油價查詢'
-                        )
-                    ]
-                ),
-                CarouselColumn(
-                    thumbnail_image_url='https://imgur.com/8vH3dft.jpg',
-                    title='選擇服務',
-                    text='請選擇',
-                    actions=[
-                        MessageAction(
-                            label='其他bot',
-                            text='應聲蟲 bot'
-                        ),
-                        MessageAction(
-                            label='油價查詢',
-                            text='油價查詢'
-                        ),
-                        URIAction(
-                            label='棒球防疫',
-                            uri='https://youtu.be/-mlo3rqQUAI'
-                        )
-                    ]
-                ),
-                CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/h4UzRit.jpg',
-                    title='選擇服務',
-                    text='請選擇',
-                    actions=[
-                        URIAction(
-                            label='分享 bot',
-                            uri='https://line.me/R/nv/recommendOA/@932xhoiw'
-                        ),
-                        URIAction(
-                            label='PTT',
-                            uri='https://www.ptt.cc/bbs/hotboards.html'
-                        ),
-                        URIAction(
-                            label='羅時豐 不務正YA',
-                            uri='https://www.youtube.com/channel/UCL2xWAoY0XAcAdoYiRGwMQw'
-                        )
-                    ]
-                )
-            ]
+    if event.message.text == "目錄":
+        carousel_template_message = TemplateSendMessage(
+            alt_text='目錄 template',
+            template=CarouselTemplate(
+                columns=[
+                    CarouselColumn(
+                        thumbnail_image_url='https://imgur.com/wIsVvvX.jpg',
+                        title='選擇服務',
+                        text='請選擇',
+                        actions=[
+                            MessageAction(
+                                label='開始玩',
+                                text='開始玩'
+                            ),
+                            URIAction(
+                                label='乾杯MV',
+                                uri='https://studio.youtube.com/video/qXeS7MzsjLY/edit'
+                            ),
+                            URIAction(
+                                label='海海人生MV',
+                                uri='https://youtu.be/FIERGaOn3gY'
+                            ),
+                            MessageAction(
+                                label='油價查詢',
+                                text='油價查詢'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        thumbnail_image_url='https://imgur.com/8vH3dft.jpg',
+                        title='選擇服務',
+                        text='請選擇',
+                        actions=[
+                            MessageAction(
+                                label='其他bot',
+                                text='應聲蟲 bot'
+                            ),
+                            MessageAction(
+                                label='油價查詢',
+                                text='油價查詢'
+                            ),
+                            URIAction(
+                                label='棒球防疫',
+                                uri='https://youtu.be/-mlo3rqQUAI'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        thumbnail_image_url='https://i.imgur.com/h4UzRit.jpg',
+                        title='選擇服務',
+                        text='請選擇',
+                        actions=[
+                            URIAction(
+                                label='分享 bot',
+                                uri='https://line.me/R/nv/recommendOA/@932xhoiw'
+                            ),
+                            URIAction(
+                                label='PTT',
+                                uri='https://www.ptt.cc/bbs/hotboards.html'
+                            ),
+                            URIAction(
+                                label='羅時豐 不務正YA',
+                                uri='https://www.youtube.com/channel/UCL2xWAoY0XAcAdoYiRGwMQw'
+                            )
+                        ]
+                    )
+                ]
+            )
         )
-    )
 
     line_bot_api.reply_message(event.reply_token, carousel_template_message)
 
