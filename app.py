@@ -555,6 +555,10 @@ def handle_message(event):
         a=apple_news2()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
+
+    if event.message.text == "幫我開燈":
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='不要'))
+        return 0
     if event.message.text == "開始玩":
         buttons_template = TemplateSendMessage(
             alt_text='開始玩 template',
