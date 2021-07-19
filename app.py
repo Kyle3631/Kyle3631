@@ -104,7 +104,7 @@ def movieo():
     return content
 
 def apple_news2():
-    target_url = 'https://www.ettoday.net/?from=rf'
+    target_url = 'https://www.ettoday.net/news/news-list.htm'
     rs = requests.session()
     res = rs.get(target_url, verify=False)
     res.encoding = 'utf-8'
