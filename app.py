@@ -489,12 +489,12 @@ def handle_message(event):
         a=moto1()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
-    if event.message.text == "摩托車" or "檔車":
+    if event.message.text == "摩托車" :
         a=moto7()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
-    if event.message.text == "汽車" or "車" :
+    if event.message.text == "汽車"  :
         a=car()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
