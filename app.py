@@ -297,6 +297,66 @@ def moto1():
         link =  data['href']
         content += '{}\n{}\n'.format(title, link)
     return content
+
+def moto7():
+    target_url = 'https://www.moto7.net/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.overlay h2 a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
+
+def car():
+    target_url = 'https://autos.yahoo.com.tw/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.main-news-list a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
+
+def pmpm():
+    target_url = 'https://autos.yahoo.com.tw/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.county span')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
+
+def carrank():
+    target_url = 'https://autos.yahoo.com.tw/new-cars/research'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('divranking-right a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
 '''
 def movie():
     target_url = 'http://www.atmovies.com.tw/movie/next/0/'
@@ -418,15 +478,32 @@ def handle_message(event):
             event.reply_token, image_message)
         return 0
         '''
-    if event.message.text == "忍400":
+    if event.message.text == "忍400" :
         content =moto()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
 
-    if event.message.text == "小阿魯":
+    if event.message.text == "小阿魯" :
         a=moto1()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+
+    if event.message.text == "摩托車" or "檔車" or "擋車":
+        a=moto7()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+
+    if event.message.text == "汽車" or "車" :
+        a=car()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+
+
+    if event.message.text == "汽車排名"  :
+        a=carrank()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+
+    if event.message.text == "PM2.5"  :
+        a=pmpm()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
 
     if event.message.text == "近期熱門廢文":
