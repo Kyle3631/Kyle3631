@@ -488,23 +488,26 @@ def handle_message(event):
     if event.message.text == "小阿魯" :
         a=moto1()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
-
-    if event.message.text == "摩托車" or "檔車" or "擋車":
+        return 0
+    if event.message.text == "摩托車" or "檔車":
         a=moto7()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
 
     if event.message.text == "汽車" or "車" :
         a=car()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
-
+        return 0
 
     if event.message.text == "汽車排名"  :
         a=carrank()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
 
     if event.message.text == "PM2.5"  :
         a=pmpm()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
 
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
