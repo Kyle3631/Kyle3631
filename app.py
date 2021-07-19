@@ -267,16 +267,20 @@ def ptt_hot():
         content += '{}\n{}\n\n'.format(title, link)
     return content
 
+
 def moto():
     target_url = 'https://www.moto7.net/?s=NINJA+400'
-    print('Start parsing moto7....')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
-    soup = BeautifulSoup(res.text, 'html.parser')
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
     content = ""
-    for data in soup.select('div.overlay h2 a'):
+    for index, data in enumerate(soup.select('div.overlay h2 a')):
+        if index == 20:
+            return content       
         title = data.text
-        content += '{}\n{}\n\n'.format(title)
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
     return content
 
 def moto1():
@@ -539,8 +543,8 @@ def handle_message(event):
                 thumbnail_image_url='https://i.imgur.com/sbOTJt4.png',
                 actions=[
                     MessageTemplateAction(
-                        label='x近期上映電影',
-                        text='近期上映電影'
+                        label='小阿魯',
+                        text='小阿魯'
                     ),
                     MessageTemplateAction(
                         label='Ettoday',
@@ -585,8 +589,8 @@ def handle_message(event):
                 thumbnail_image_url='https://imgur.com/zN0pSfR.jpg',
                 actions=[
                     MessageTemplateAction(
-                        label='X',
-                        text='此功能尚未開放'
+                        label='忍400',
+                        text='忍400'
                     ),
                     MessageTemplateAction(
                         label='來張毛毛們の圖片',
@@ -659,8 +663,8 @@ def handle_message(event):
                             text='油價查詢'
                         ),
                         URIAction(
-                            label='此功能未開放',
-                            uri='moto'
+                            label='TVBS',
+                            uri='https://www.youtube.com/watch?v=KDRwIRKP5tY'
                         )
                     ]
                 ),
