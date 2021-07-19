@@ -110,7 +110,7 @@ def apple_news2():
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')   
     content = ""
-    for index, data in enumerate(soup.select('div.txt h3 a')):
+    for index, data in enumerate(soup.select('div.part_list_2 h3 a')):
         if index == 20:
             return content       
         title = data.text
@@ -268,15 +268,30 @@ def ptt_hot():
     return content
 
 def moto():
-    target_url = 'https://www.moto7.net/'
+    target_url = 'https://www.moto7.net/?s=NINJA+400'
     print('Start parsing moto7....')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
-    for data in soup.select('div'):
+    for data in soup.select('div.overlay h2 a'):
         title = data.text
         content += '{}\n{}\n\n'.format(title)
+    return content
+
+def moto1():
+    target_url = 'https://www.moto7.net/?s=SUZUKI+GSX-R150'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.overlay h2 a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
     return content
 '''
 def movie():
@@ -399,12 +414,16 @@ def handle_message(event):
             event.reply_token, image_message)
         return 0
         '''
-    if event.message.text == "moto":
+    if event.message.text == "忍400":
         content =moto()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+
+    if event.message.text == "小阿魯":
+        a=moto1()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
 
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
@@ -451,7 +470,7 @@ def handle_message(event):
             TextSendMessage(text=content))
         return 0
     
-    if event.message.text == "蘋果最新新聞":
+    if event.message.text == "最新新聞":
         a=apple_news2()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
@@ -503,8 +522,8 @@ def handle_message(event):
                         text='PanX泛科技'
                     ),
                     MessageTemplateAction(
-                        label='蘋果日報',
-                        text='蘋果最新新聞'
+                        label='Ettody新聞',
+                        text='最新新聞'
                     )
                 ]
             )
@@ -524,8 +543,8 @@ def handle_message(event):
                         text='近期上映電影'
                     ),
                     MessageTemplateAction(
-                        label='蘋果日報',
-                        text='蘋果最新新聞'
+                        label='Ettoday',
+                        text='最新新聞'
                     ),
                     MessageTemplateAction(
                         label='最新電影資訊',
@@ -617,12 +636,12 @@ def handle_message(event):
                             text='開始玩'
                         ),
                         URIAction(
-                            label='乾杯MV',
-                            uri='https://youtu.be/qXeS7MzsjLY'
+                            label='大愛廣播台',
+                            uri='http://daairadio.tw/Page/Home/Index.aspx'
                         ),
                         URIAction(
-                            label='海海人生MV',
-                            uri='https://youtu.be/FIERGaOn3gY'
+                            label='廣播',
+                            uri='https://hichannel.hinet.net/radio/index.do?id=259'
                         )
                     ]
                 ),
@@ -640,8 +659,8 @@ def handle_message(event):
                             text='油價查詢'
                         ),
                         URIAction(
-                            label='棒球防疫',
-                            uri='https://youtu.be/-mlo3rqQUAI'
+                            label='此功能未開放',
+                            uri='moto'
                         )
                     ]
                 ),
