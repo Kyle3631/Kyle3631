@@ -493,7 +493,7 @@ def handle_message(event):
 
     if event.message.text == "汽車"  :
         a=car()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(a))
         return 0
 
     if event.message.text == "汽車排名"  :
