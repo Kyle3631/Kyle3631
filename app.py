@@ -115,7 +115,7 @@ def apple_news2():
             return content       
         title = data.text
         link =  data['href']
-        abc='https://sports.ettoday.net'
+        abc='https://www.ettoday.net'
         link= abc + link
         content += '{}\n{}\n'.format(title, link)
     return content
