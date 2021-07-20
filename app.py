@@ -321,8 +321,6 @@ def car():
     soup = BeautifulSoup(res.text, 'html.parser')   
     content = ""
     for index, data in enumerate(soup.select('div.main-news-list a')):
-        if index == 20:
-            return content       
         title = data.text
         link =  data['href']
         content += '{}\n{}\n'.format(title, link)
@@ -336,8 +334,7 @@ def pmpm():
     soup = BeautifulSoup(res.text, 'html.parser')   
     content = ""
     for index, data in enumerate(soup.select('div.county span')):
-        if index == 20:
-            return content       
+              
         title = data.text
         link =  data['href']
         content += '{}\n{}\n'.format(title, link)
