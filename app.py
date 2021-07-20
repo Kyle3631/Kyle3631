@@ -115,6 +115,8 @@ def apple_news2():
             return content       
         title = data.text
         link =  data['href']
+        abc='https://sports.ettoday.net'
+        link= abc + link
         content += '{}\n{}\n'.format(title, link)
     return content
 
@@ -326,6 +328,21 @@ def car():
         content += '{}\n{}\n'.format(title, link)
     return content
 
+def cell():
+    target_url = 'https://www.eprice.com.tw/product/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.weekly-ranking ul a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
+
 def pmpm():
     target_url = 'https://autos.yahoo.com.tw/'
     rs = requests.session()
@@ -339,6 +356,7 @@ def pmpm():
         link =  data['href']
         content += '{}\n{}\n'.format(title, link)
     return content
+
 
 def carrank():
     target_url = 'https://autos.yahoo.com.tw/new-cars/research'
@@ -488,6 +506,11 @@ def handle_message(event):
         return 0
     if event.message.text == "摩托車" :
         a=moto7()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "手機" :
+        a=cell()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
