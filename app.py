@@ -131,6 +131,36 @@ def apple_news2():
         content += '{}\n{}\n'.format(title, link)
     return content
 
+def sport_news():
+    target_url = 'https://www.sportsv.net/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.item_lish h4 a')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
+
+def sport2020():
+    target_url = 'https://www.sportsv.net/'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.list')):
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['href']
+        content += '{}\n{}\n'.format(title, link)
+    return content
+
 def get_page_number(content):
     start_index = content.find('index')
     end_index = content.find('.html')
@@ -472,6 +502,22 @@ def technews():
         content += '{}\n{}\n\n'.format(title, link)
     return content
 
+def drama():
+    target_url = 'https://gimy.app/cat/20-----------.html'
+    print('Start drama ...')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.title h5')):
+        if index == 12:
+            return content
+        title = data.text
+        link = data['href']
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
 
 def panx():
     target_url = 'https://panx.asia/' #泛科技
@@ -660,6 +706,14 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+
+    if event.message.text == "運動新聞":
+        content = sport_news()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+
     if event.message.text == "PanX泛科技":
         content = panx()
         line_bot_api.reply_message(
@@ -669,6 +723,16 @@ def handle_message(event):
     
     if event.message.text == "最新新聞":
         a=apple_news2()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "韓劇":
+        a=drama()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "奧運":
+        a=sport2020()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
