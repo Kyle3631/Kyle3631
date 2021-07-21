@@ -88,6 +88,17 @@ def apple_news():
     return content
 '''
 
+def invoice():
+
+    res = requests.get("https://bluezz.com.tw")
+    soup = BeautifulSoup(res.text,'html.parser')    
+
+    for img in soup.select('img'):
+        match = re.search(r'<img alt=.*(https:.*\.jpg)',str(img))
+        if match:
+            # print(match.group(1))
+            return str(match.group(1))
+
 def movieo():
     target_url = 'https://movies.yahoo.com.tw/'
     rs = requests.session()
@@ -180,6 +191,60 @@ def crawl_page_gossiping(res):
             print('delete', e)
     return article_gossiping_seq
 
+def beauty_hot():
+    random_page = random.randint(2250,2264)
+    # print(random_page)
+
+    # https://webptt.com/m.aspx?n=bbs/Beauty/index2264.html
+    # print("程式進入")
+    res = requests.get("https://webptt.com/m.aspx?n=bbs/Beauty/index"+str(random_page)+'.html')
+    soup = BeautifulSoup(res.text,'html.parser')
+
+    beauty_gril_article = []
+    beauty_gril_url = []
+    # <a href="./m.aspx?n=bbs/Beauty/M.1504596296.A.331.html">[正妹] 台北雙層巴士</a>
+    # print("執行第一迴圈")
+    for a_tag in soup.select('a'):
+        # print(a_tag)
+        match = re.search(r'.*href="\./m\.aspx\?n=bbs/Beauty/M(.*?)">\[正妹\]',str(a_tag))
+        if match:
+            # print(match.group(1))
+            beauty_gril_article.append('https://webptt.com/m.aspx?n=bbs/Beauty/M'+match.group(1))
+            # https://webptt.com/m.aspx?n=bbs/Beauty/M.1504590665.A.10B.html
+
+    # print(beauty_gril_article)
+
+    # for url in beauty_gril_article:
+
+    while True:
+        res = requests.get(beauty_gril_article[(random.randint(0,len(beauty_gril_article)-1))])
+        soup = BeautifulSoup(res.text,'html.parser')
+
+        # beauty_target = 5
+        # beauty_counter = 0
+        # print("執行第二迴圈")
+        for a_tag in soup.select('a'):
+            # print(div_tag)
+            match_img = re.findall(r'href="(http.*?.jpg)"',str(a_tag))
+            if match_img:
+                # beauty_counter += 1
+                beauty_gril_url.append(match_img)
+                # print(match_img)
+                # if beauty_counter == beauty_target:
+                #     break
+                # break
+        if len(beauty_gril_url)!=0:
+            break
+
+
+    # print(len(beauty_gril_url)-1)
+    random_range = random.randint(0,len(beauty_gril_url)-1)
+    final_url = ''.join(beauty_gril_url[random_range])
+    # print(final_url)
+    if final_url[4]!='s':
+        final_url = final_url.replace('http', 'https')
+    
+    return final_url
 
 def ptt_gossiping():
     rs = requests.session()
@@ -493,6 +558,20 @@ def handle_message(event):
             event.reply_token, image_message)
         return 0
         '''
+
+    if event.message.text == "正妹圖片":
+        
+        url=beauty_hot()
+
+        print(url)
+        image_message = ImageSendMessage(
+            original_content_url=url,
+            preview_image_url=url
+        )
+        line_bot_api.reply_message(
+            event.reply_token, image_message)
+        return 0
+
     if event.message.text == "忍400" :
         content =moto()
         line_bot_api.reply_message(
@@ -529,6 +608,19 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
+    if event.message.text == "發票":
+        
+        url=invoice()
+
+        print(url)
+        image_message = ImageSendMessage(
+            original_content_url=url,
+            preview_image_url=url
+        )
+        line_bot_api.reply_message(
+            event.reply_token, image_message)
+        return 0
+
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
         line_bot_api.reply_message(
@@ -548,7 +640,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='此功能尚未開放'))
         return 0
-
+    '''
     if event.message.text == "觸電網-youtube":
         target_url = 'https://www.youtube.com/user/truemovie1/videos'
         rs = requests.session()
@@ -561,6 +653,7 @@ def handle_message(event):
                 TextSendMessage(text=seqs[random.randint(0, len(seqs) - 1)])
             ])
         return 0
+    '''
     if event.message.text == "科技新報":
         content = technews()
         line_bot_api.reply_message(
