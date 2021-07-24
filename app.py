@@ -89,10 +89,11 @@ def apple_news():
 '''
 
 def drama():
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     target_url = 'https://777tv.app/vod/type/id/20.html'
     print('Start drama ...')
     rs = requests.session()
-    res = rs.get(target_url, verify=False)
+    res = rs.get(target_url, verify=False, headers=headers)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
@@ -108,10 +109,11 @@ def drama():
     return content
 
 def dramat():
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     target_url = 'https://777tv.app/vod/type/id/14.html'
     print('Start dramataiwan ...')
     rs = requests.session()
-    res = rs.get(target_url, verify=False)
+    res = rs.get(target_url, verify=False, headers=headers)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
@@ -127,10 +129,11 @@ def dramat():
     return content
 
 def dramac():
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     target_url = 'https://777tv.app/vod/show/id/13.html'
     print('Start drama ...')
     rs = requests.session()
-    res = rs.get(target_url, verify=False)
+    res = rs.get(target_url, verify=False, headers=headers)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
@@ -146,10 +149,11 @@ def dramac():
     return content
 
 def movie777():
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     target_url = 'https://dogevod.com/browse/movies.html'
     print('Start drama ...')
     rs = requests.session()
-    res = rs.get(target_url, verify=False)
+    res = rs.get(target_url, verify=False, headers=headers)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
@@ -788,6 +792,7 @@ def handle_message(event):
         return 0
 
     if event.message.text == "韓劇":
+        
         a=drama()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
