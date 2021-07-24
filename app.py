@@ -88,6 +88,82 @@ def apple_news():
     return content
 '''
 
+def drama():
+    target_url = 'https://777tv.app/vod/type/id/20.html'
+    print('Start drama ...')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.myui-vodlist__detail h4 a')):
+        if index == 12:
+            return content
+        title = data.text
+        link = data['href']
+        abc="https://777tv.app"
+        link=abc+link
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
+
+def dramat():
+    target_url = 'https://777tv.app/vod/type/id/14.html'
+    print('Start dramataiwan ...')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.myui-vodlist__detail h4 a')):
+        if index == 12:
+            return content
+        title = data.text
+        link = data['href']
+        abc="https://777tv.app"
+        link=abc+link
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
+
+def dramac():
+    target_url = 'https://777tv.app/vod/show/id/13.html'
+    print('Start drama ...')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.myui-vodlist__detail h4 a')):
+        if index == 12:
+            return content
+        title = data.text
+        link = data['href']
+        abc="https://777tv.app"
+        link=abc+link
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
+
+def movie777():
+    target_url = 'https://dogevod.com/browse/movies.html'
+    print('Start drama ...')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.myui-vodlist__detail h4 a')):
+        if index == 12:
+            return content
+        title = data.text
+        link = data['href']
+        abc="https://dogevod.com"
+        link=abc+link
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
+
 def invoice():
 
     res = requests.get("https://bluezz.com.tw")
@@ -502,22 +578,7 @@ def technews():
         content += '{}\n{}\n\n'.format(title, link)
     return content
 
-def drama():
-    target_url = 'https://gimy.app/cat/20-----------.html'
-    print('Start drama ...')
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
-    res.encoding = 'utf-8'
-    soup = BeautifulSoup(res.text, 'html.parser')
-    content = ""
 
-    for index, data in enumerate(soup.select('div.title h5')):
-        if index == 12:
-            return content
-        title = data.text
-        link = data['href']
-        content += '{}\n{}\n\n'.format(title, link)
-    return content
 
 def panx():
     target_url = 'https://panx.asia/' #泛科技
@@ -580,7 +641,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
-    if event.message.text == "來張 imgur 圖片":
+    if event.message.text == "毛毛圖片":
         client = ImgurClient(client_id, client_secret)
         images = client.get_album_images(album_id)
         index = random.randint(0, len(images) - 1)
@@ -731,6 +792,21 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
+    if event.message.text == "台劇":
+        a=dramat()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "陸劇":
+        a=dramac()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "看電影":
+        a=movie777()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
     if event.message.text == "奧運":
         a=sport2020()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
@@ -855,7 +931,7 @@ def handle_message(event):
                     ),
                     MessageTemplateAction(
                         label='來張毛毛們の圖片',
-                        text='來張 imgur 圖片'
+                        text='毛毛圖片'
                     )
                 ]
             )
