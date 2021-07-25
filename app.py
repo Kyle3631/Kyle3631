@@ -108,6 +108,23 @@ def drama():
         content += '{}\n{}\n\n'.format(title, link)
     return content
 
+def jack():
+    target_url = 'https://www.jkforum.net/forum-574-1.html'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')   
+    content = ""
+    for index, data in enumerate(soup.select('div.c a')):
+        
+        if index == 20:
+            return content       
+        title = data.text
+        link =  data['style']
+        content += '{}\n{}\n'.format(title, link)
+
+    return content
+
 def dramat():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     target_url = 'https://777tv.app/vod/type/id/14.html'
@@ -131,7 +148,7 @@ def dramat():
 def dramac():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     target_url = 'https://777tv.app/vod/show/id/13.html'
-    print('Start drama ...')
+    print('Start dramac ...')
     rs = requests.session()
     res = rs.get(target_url, verify=False, headers=headers)
     res.encoding = 'utf-8'
@@ -152,7 +169,7 @@ def movie777():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     
     target_url = 'https://dogevod.com/browse/movies.html'
-    print('Start drama ...')
+    print('Start movie777 ...')
     rs = requests.session()
     res = rs.get(target_url, verify=False, headers=headers)
     res.encoding = 'utf-8'
@@ -792,6 +809,11 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
+    if event.message.text == "jack":
+        a=jack()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
     if event.message.text == "韓劇":
         
         a=drama()
@@ -804,8 +826,8 @@ def handle_message(event):
         return 0
 
     if event.message.text == "陸劇":
-        a=dramac()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        content=dramac()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
 
     if event.message.text == "看電影":
