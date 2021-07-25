@@ -602,6 +602,7 @@ def technews():
 
 
 
+
 def panx():
     target_url = 'https://panx.asia/' #泛科技
     print('Start parsing ptt hot....')
@@ -814,18 +815,17 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
-    if event.message.text == "韓劇":
-        
+    if event.message.text == "ko":
         a=drama()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
-    if event.message.text == "台劇":
+    if event.message.text == "tai":
         a=dramat()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
-    if event.message.text == "陸劇":
+    if event.message.text == "chi":
         content=dramac()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
