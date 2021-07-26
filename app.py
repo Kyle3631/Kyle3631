@@ -145,18 +145,16 @@ def dramat():
     return content
 
 def dramac():
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
+    
     target_url = 'https://777tv.app/vod/show/id/13.html'
     print('Start dramac ...')
     rs = requests.session()
-    res = rs.get(target_url, verify=False, headers=headers)
+    res = rs.get(target_url, verify=False)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
 
     for index, data in enumerate(soup.select('div.myui-vodlist__detail h4 a')):
-        if index == 12:
-            return content
         title = data.text
         link = data['href']
         abc="https://777tv.app"
