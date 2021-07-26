@@ -145,16 +145,15 @@ def dramat():
     return content
 
 def dramac():
-    print('Start dramac ...')
     res = requests.get('https://777tv.app/vod/show/id/13.html',
     headers={
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36'
     })
-    res.encoding = 'utf-8'
+    #res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
 
-    for index, data in enumerate(soup.select('div.myui-vodlist__detail h4 a')):
+    for data in enumerate(soup.select('div.myui-vodlist__detail h4 a')):
         title = data.text
         link = data['href']
         abc="https://777tv.app"
@@ -239,6 +238,24 @@ def sag():
     for index, data in enumerate(soup.select('div.standard-body ul')):
         title = data.text
         
+        
+    return title
+
+def aqu():
+    print('Start dramac ...')
+    res = requests.get('https://www.elle.com/tw/starsigns/today/a21265913/aquarius-today/',
+    headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    })
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    
+
+    for index, data in enumerate(soup.select('div.standard-body ul')):
+        title = data.text
+        #link = data['href']
+        #abc="https://777tv.app"
+        #link=abc+link
         
     return title
 
@@ -835,6 +852,11 @@ def handle_message(event):
 
     if event.message.text == "射手座":
         a=sag()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "水瓶座":
+        a=aqu()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
