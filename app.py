@@ -145,11 +145,11 @@ def dramat():
     return content
 
 def dramac():
-    
-    target_url = 'https://777tv.app/vod/show/id/13.html'
     print('Start dramac ...')
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
+    res = requests.get('https://777tv.app/vod/show/id/13.html',
+    headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    })
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
@@ -225,6 +225,22 @@ def apple_news2():
         link= abc + link
         content += '{}\n{}\n'.format(title, link)
     return content
+
+def sag():
+    print('Start dramac ...')
+    res = requests.get('https://www.elle.com/tw/starsigns/today/a21346791/sagittarius-today/',
+    headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    })
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.standard-body ul')):
+        title = data.text
+        
+        
+    return title
 
 def sport_news():
     target_url = 'https://www.sportsv.net/'
@@ -814,6 +830,11 @@ def handle_message(event):
 
     if event.message.text == "ko":
         a=drama()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "射手座":
+        a=sag()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
