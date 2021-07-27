@@ -2,6 +2,7 @@ import requests
 import re
 import random
 import configparser
+import  json, ssl, urllib.request
 from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
@@ -764,7 +765,16 @@ def handle_message(event):
         return 0
 
     if event.message.text == "PM2.5"  :
-        a=pmpm()
+        url = 'https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=9be7b239-557b-4c10-9775-78cadfc555e9&sort=ImportDate%20desc&format=json'
+        context = ssl._create_unverified_context()
+
+        with urllib.request.urlopen(url, context=context) as jsondata:
+             #將JSON進行UTF-8的BOM解碼，並把解碼後的資料載入JSON陣列中
+            data = json.loads(jsondata.read().decode('utf-8-sig')) 
+
+        for i in data['records']:
+            #print(i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status'])
+            a=(i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status'])
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
@@ -872,6 +882,11 @@ def handle_message(event):
 
     if event.message.text == "看電影":
         a=movie777()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "空氣品質":
+        a=api()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
