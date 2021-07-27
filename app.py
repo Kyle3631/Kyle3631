@@ -3,6 +3,7 @@ import re
 import random
 import configparser
 import  json, ssl, urllib.request
+import  urllib.request,csv
 from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
@@ -753,10 +754,17 @@ def handle_message(event):
         a=cell()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
+    if event.message.text == "股票" :
+        url = 'https://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data'
+        webpage = urllib.request.urlopen(url)  #開啟網頁
+        data = csv.reader(webpage.read().decode('utf-8').splitlines()) #讀取資料到data陣列中
+        for i in data:
+            print(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9])
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9]))
 
     if event.message.text == "汽車"  :
         a=car()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(a))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
     if event.message.text == "汽車排名"  :
@@ -774,7 +782,7 @@ def handle_message(event):
 
         for i in data['records']:
             #print(i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status'])
-            a=(i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status'])
+            a=i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
