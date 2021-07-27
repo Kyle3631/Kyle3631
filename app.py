@@ -2,8 +2,8 @@ import requests
 import re
 import random
 import configparser
-import  json, ssl, urllib.request
-import  urllib.request,csv
+#import  json, ssl, urllib.request
+#import  urllib.request,csv
 from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
