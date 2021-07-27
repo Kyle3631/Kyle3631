@@ -228,7 +228,7 @@ def apple_news2():
     return content
 
 def sag():
-    print('Start dramac ...')
+    print('Start dram ...')
     res = requests.get('https://www.elle.com/tw/starsigns/today/a21346791/sagittarius-today/',
     headers={
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
@@ -243,8 +243,54 @@ def sag():
         
     return title
 
+def sky():
+    print('Start dra...')
+    res = requests.get('https://www.elle.com/tw/starsigns/today/a21533471/libra-today/',
+    headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    })
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.standard-body ul')):
+        title = data.text
+        
+        
+    return title
+
+def moo():
+    print('Start dra...')
+    res = requests.get('def sky():
+    print('Start dra...')
+    res = requests.get('https://www.elle.com/tw/starsigns/today/a21533471/libra-today/',
+    headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    })
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.standard-body ul')):
+        title = data.text
+        
+        
+    return title',
+    headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    })
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+
+    for index, data in enumerate(soup.select('div.standard-body ul')):
+        title = data.text
+        
+        
+    return title
+
 def aqu():
-    print('Start dramac ...')
+    print('Start drac ...')
     res = requests.get('https://www.elle.com/tw/starsigns/today/a21265913/aquarius-today/',
     headers={
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
@@ -873,6 +919,16 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
+    if event.message.text == "天秤座":
+        a=sky()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "牡羊座":
+        a=moo()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
     if event.message.text == "水瓶座":
         a=aqu()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
@@ -1002,6 +1058,27 @@ def handle_message(event):
                     MessageTemplateAction(
                         label='即時廢文',
                         text='即時廢文'
+                    )
+                ]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token, buttons_template)
+        return 0
+    if event.message.text == "星座":
+        buttons_template = TemplateSendMessage(
+            alt_text='看廢文 template',
+            template=ButtonsTemplate(
+                title='射手',
+                text='射手座',
+                thumbnail_image_url='https://i.imgur.com/ocmxAdS.jpg',
+                actions=[
+                    MessageTemplateAction(
+                        label='水瓶',
+                        text='水瓶座'
+                    ),
+                    MessageTemplateAction(
+                        label='天秤',
+                        text='天秤座'
                     )
                 ]
             )
