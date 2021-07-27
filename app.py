@@ -806,7 +806,7 @@ def handle_message(event):
         data = csv.reader(webpage.read().decode('utf-8').splitlines()) #讀取資料到data陣列中
         for i in data:
             print(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9])
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9]))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9]))
 
     if event.message.text == "汽車"  :
         a=car()
@@ -829,7 +829,7 @@ def handle_message(event):
         for i in data['records']:
             #print(i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status'])
             a=i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status']
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
     if event.message.text == "發票":
@@ -1064,27 +1064,7 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, buttons_template)
         return 0
-    if event.message.text == "星座":
-        buttons_template = TemplateSendMessage(
-            alt_text='看廢文 template',
-            template=ButtonsTemplate(
-                title='射手',
-                text='射手座',
-                thumbnail_image_url='https://i.imgur.com/ocmxAdS.jpg',
-                actions=[
-                    MessageTemplateAction(
-                        label='水瓶',
-                        text='水瓶座'
-                    ),
-                    MessageTemplateAction(
-                        label='天秤',
-                        text='天秤座'
-                    )
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token, buttons_template)
-        return 0
+    
     if event.message.text == "毛毛":
         buttons_template = TemplateSendMessage(
             alt_text='毛毛 template',
@@ -1192,6 +1172,7 @@ def handle_message(event):
                         )
                     ]
                 )
+                
             ]
         )
     )
