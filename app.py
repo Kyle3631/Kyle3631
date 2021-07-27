@@ -775,7 +775,7 @@ def handle_message(event):
         for i in data['records']:
             #print(i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status'])
             a=(i['SiteName'],' AQI=',i['AQI'], ' 狀態=', i['Status'])
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
     if event.message.text == "發票":
