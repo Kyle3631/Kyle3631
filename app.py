@@ -2,8 +2,8 @@ import requests
 import re
 import random
 import configparser
-#import  json, ssl, urllib.request
-#import  urllib.request,csv
+import  json, ssl, urllib.request
+import  urllib.request,csv
 from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
@@ -261,21 +261,7 @@ def sky():
 
 def moo():
     print('Start dra...')
-    res = requests.get('def sky():
-    print('Start dra...')
-    res = requests.get('https://www.elle.com/tw/starsigns/today/a21533471/libra-today/',
-    headers={
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
-    })
-    res.encoding = 'utf-8'
-    soup = BeautifulSoup(res.text, 'html.parser')
-    content = ""
-
-    for index, data in enumerate(soup.select('div.standard-body ul')):
-        title = data.text
-        
-        
-    return title',
+    res = requests.get('https://www.elle.com/tw/starsigns/today/a33789900/aries-today/',
     headers={
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
     })
@@ -804,9 +790,14 @@ def handle_message(event):
         url = 'https://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data'
         webpage = urllib.request.urlopen(url)  #開啟網頁
         data = csv.reader(webpage.read().decode('utf-8').splitlines()) #讀取資料到data陣列中
-        for i in data:
-            print(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9])
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9]))
+        acb=[]
+        abc=[]
+        for i,r in data:
+            #print(i[1],' 漲跌價差',i[8], ' 成交筆數',i[9])
+            abc+=i[1]
+            #time.sleep(1)
+            acb =abc
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=acb))
 
     if event.message.text == "汽車"  :
         a=car()
@@ -949,10 +940,6 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
-    if event.message.text == "空氣品質":
-        a=api()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
-        return 0
 
     if event.message.text == "奧運":
         a=sport2020()
