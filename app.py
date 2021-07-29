@@ -1294,7 +1294,7 @@ def handle_message(event):
 
     if event.message.text=="星座":
         carousel_template_message = TemplateSendMessage(
-            alt_text='星座 template',
+            alt_text='Carousel template',
             template=CarouselTemplate(
                 columns=[
                     CarouselColumn(
