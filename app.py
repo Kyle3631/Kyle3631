@@ -1293,7 +1293,7 @@ def handle_message(event):
         return 0
 
     if event.message.text=="星座":
-        carousel_template_message = TemplateSendMessage(
+        message = TemplateSendMessage(
             alt_text='Carousel template',
             template=CarouselTemplate(
                 columns=[
@@ -1377,6 +1377,7 @@ def handle_message(event):
                 ]
             )
         )
+    line_bot_api.reply_message(event.reply_token, message)    
 
     carousel_template_message = TemplateSendMessage(
         alt_text='目錄 template',
