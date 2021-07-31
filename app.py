@@ -939,7 +939,7 @@ def handle_message(event):
     if event.message.text == "PM2.5"  :
         url = 'https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=9be7b239-557b-4c10-9775-78cadfc555e9&sort=ImportDate%20desc&format=json'
         context = ssl._create_unverified_context()
-
+        a=""
         with urllib.request.urlopen(url, context=context) as jsondata:
              #將JSON進行UTF-8的BOM解碼，並把解碼後的資料載入JSON陣列中
             data = json.loads(jsondata.read().decode('utf-8-sig')) 
@@ -1298,7 +1298,7 @@ def handle_message(event):
             template=CarouselTemplate(
                 columns=[
                     CarouselColumn(
-                        thumbnail_image_url='https://i.imgur.com/AdHZG7E.jpg',
+                        thumbnail_image_url='https://imgur.com/EipgjXw.jpg',
                         title='風象星座',
                         text='本日星座運勢',
                         actions=[
@@ -1317,7 +1317,7 @@ def handle_message(event):
                         ]
                     ),
                     CarouselColumn(
-                        thumbnail_image_url='https://i.imgur.com/D663gLB.jpg',
+                        thumbnail_image_url='https://imgur.com/zx8Z55R.jpg',
                         title='火象星座',
                         text='本日星座運勢',
                         actions=[
@@ -1336,7 +1336,7 @@ def handle_message(event):
                         ]
                     ),
                     CarouselColumn(
-                        thumbnail_image_url='https://i.imgur.com/EcIQPxV.jpg',
+                        thumbnail_image_url='https://imgur.com/coHkNIn.jpg',
                         title='水象星座',
                         text='本日星座運勢',
                         actions=[
@@ -1355,7 +1355,7 @@ def handle_message(event):
                         ]
                     ),
                     CarouselColumn(
-                        thumbnail_image_url='https://i.imgur.com/C3Nxudg.jpeg',
+                        thumbnail_image_url='https://imgur.com/SxNQgu9.jpeg',
                         title='土象星座',
                         text='本日星座運勢',
                         actions=[
