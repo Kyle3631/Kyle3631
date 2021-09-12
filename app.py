@@ -1152,29 +1152,33 @@ def handle_message(event):
     if event.message.text == "綜合麵線":
         urlll= beauty_hot()
         message1 = ImageSendMessage(
+            
             original_content_url=urlll,
             preview_image_url=urlll,
             sender=Sender(
                 name="Google",
                 icon_url="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK")
         )
+        urllll= beauty_hot()
         message2 = ImageSendMessage(
-            original_content_url=urlll,
-            preview_image_url=urlll,
+            original_content_url=urllll,
+            preview_image_url=urllll,
             sender=Sender(
                 name="Apple",
                 icon_url="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1724px-Apple_logo_black.svg.png")
         )
+        urlllll= beauty_hot()
         message3 = ImageSendMessage(
-            original_content_url=urlll,
-            preview_image_url=urlll,
+            original_content_url=urlllll,
+            preview_image_url=urlllll,
             sender=Sender(
                 name="Amazon",
                 icon_url="https://pngimg.com/uploads/amazon/amazon_PNG27.png")
         )
+        urllllll= beauty_hot()
         message4 = ImageSendMessage(
-            original_content_url=urlll,
-            preview_image_url=urlll,
+            original_content_url=urllllll,
+            preview_image_url=urllllll,
             sender=Sender(
                 name="Facebook",
                 icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
@@ -1233,8 +1237,9 @@ def handle_message(event):
             name="阿布",
             icon_url="https://i.imgur.com/q4Ar2Wr.jpg")
         )
-        messages = [message1, message2, message3, message4, message5, message6, message7,message8]
+        messages = [ message4, message5, message6, message7,message8]
         line_bot_api.reply_message(event.reply_token, messages)
+
     if event.message.text == "chi":
         content=dramac()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
