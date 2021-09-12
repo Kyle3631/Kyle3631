@@ -1109,13 +1109,16 @@ def handle_message(event):
             month='0'+str(month)
         if 60>=minute>=45:
             minute='30'
+        elif 0>=minute>=15:
+            minute='30'
+            hour=hour-1
         else:
             minute='00'
-        url2 = 'https://www.cwb.gov.tw/Data/radar/CV1_3600_%d'%(year)
-        url= url2 + str(month) + str(date) + str(hour) + str(minute) + '.png'
+        url1 = 'https://www.cwb.gov.tw/Data/radar/CV1_3600_%d'%(year)
+        urlll= url1 + str(month) + str(date) + str(hour) + str(minute) + '.png'
 
         
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=url))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=urlll))
         return 0
 
     if event.message.text == "chi":
