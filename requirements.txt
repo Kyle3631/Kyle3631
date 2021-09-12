@@ -3,4 +3,3 @@ gunicorn
 beautifulsoup4==4.9.3
 line-bot-sdk
 imgurpython
-time
