@@ -1115,12 +1115,7 @@ def handle_message(event):
         url= url2 + str(month) + str(date) + str(hour) + str(minute) + '.png'
 
         
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        line_bot_api.reply_message(
-            event.reply_token, image_message)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=url))
         return 0
 
     if event.message.text == "chi":
