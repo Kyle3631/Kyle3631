@@ -1145,9 +1145,9 @@ def handle_message(event):
     if event.message.text == "幫我開燈":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='不要'))
         return 0
-    if event.message.text == "開始玩":
+    if event.message.text == "目錄":
         buttons_template = TemplateSendMessage(
-            alt_text='開始玩 template',
+            alt_text='目錄',
             template=ButtonsTemplate(
                 title='選擇服務',
                 text='請選擇',
@@ -1159,7 +1159,7 @@ def handle_message(event):
                     )
                     ,
                     MessageTemplateAction(
-                        label='電影',
+                        label='電影手機摩托車',
                         text='電影'
                     ),
                     MessageTemplateAction(
@@ -1167,7 +1167,7 @@ def handle_message(event):
                         text='看廢文'
                     ),
                     MessageTemplateAction(
-                        label='毛毛',
+                        label='其他',
                         text='毛毛'
                     )
                 ]
@@ -1210,12 +1210,12 @@ def handle_message(event):
                 thumbnail_image_url='https://i.imgur.com/sbOTJt4.png',
                 actions=[
                     MessageTemplateAction(
-                        label='小阿魯',
-                        text='小阿魯'
+                        label='手機排行',
+                        text='手機'
                     ),
                     MessageTemplateAction(
-                        label='Ettoday',
-                        text='最新新聞'
+                        label='摩托車',
+                        text='摩托車'
                     ),
                     MessageTemplateAction(
                         label='最新電影資訊',
@@ -1257,8 +1257,16 @@ def handle_message(event):
                 thumbnail_image_url='https://imgur.com/zN0pSfR.jpg',
                 actions=[
                     MessageTemplateAction(
-                        label='忍400',
-                        text='忍400'
+                        label='星座',
+                        text='星座'
+                    ),
+                    MessageTemplateAction(
+                        label='發票',
+                        text='發票'
+                    ),
+                    MessageTemplateAction(
+                        label='即時油價',
+                        text='油價查詢'
                     ),
                     MessageTemplateAction(
                         label='來張毛毛們の圖片',
