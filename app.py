@@ -1195,49 +1195,33 @@ def handle_message(event):
                 name="Google",
                 icon_url="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK")
         )
-        message2 = TextSendMessage(
-            text="德魯納酒店",
-            sender=Sender(
-                name="Apple",
-                icon_url="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1724px-Apple_logo_black.svg.png")
-        )
+        
         message3 = ImageSendMessage(
             original_content_url='https://6.share.photo.xuite.net/willyopp/1616d87/20574820/1244294435_o.jpg',
             preview_image_url='https://6.share.photo.xuite.net/willyopp/1616d87/20574820/1244294435_o.jpg',
             sender=Sender(
-                name="Amazon",
-                icon_url="https://pngimg.com/uploads/amazon/amazon_PNG27.png")
+                name="Facebook",
+                icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
         )
-        message4 = TextSendMessage(
-        text="我的大叔",
-        sender=Sender(
-            name="Facebook",
-            icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
-        )
+        
         message5 = ImageSendMessage(
             original_content_url='https://imgur.com/cZkEwWp.jpg',
             preview_image_url='https://imgur.com/cZkEwWp.jpg',
+            sender=Sender(
+                name="阿牛",
+                icon_url="https://i.imgur.com/EcIQPxV.jpg")
+        
         ) 
-        message6 = TextSendMessage(
-        text="愛的迫降",
-        sender=Sender(
-            name="阿牛",
-            icon_url="https://i.imgur.com/EcIQPxV.jpg")
-        )
+        
         message7 = ImageSendMessage(
             original_content_url='https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
             preview_image_url='https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
             sender=Sender(
                 name="阿璞",
-                icon_url="https://imgur.com/5n8V1yV.png")
+                icon_url="https://imgur.com/iKwrTXa.jpg")
         )
-        message8 = TextSendMessage(
-        text="浪漫醫生金師傅2",
-        sender=Sender(
-            name="阿布",
-            icon_url="https://i.imgur.com/q4Ar2Wr.jpg")
-        )
-        messages = [ message4, message5, message6, message7,message8]
+        
+        messages = [ message1, message3, message5, message7]
         line_bot_api.reply_message(event.reply_token, messages)
 
     if event.message.text == "chi":
