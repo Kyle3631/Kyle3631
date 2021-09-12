@@ -1211,8 +1211,8 @@ def handle_message(event):
             icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
         )
         message5 = ImageSendMessage(
-            original_content_url='https://i0.wp.com/yenliving.com/wp-content/uploads/20200316143956_34.jpg?w=1440&ssl=1',
-            preview_image_url='https://i0.wp.com/yenliving.com/wp-content/uploads/20200316143956_34.jpg?w=1440&ssl=1',
+            original_content_url='https://imgur.com/cZkEwWp.jpg',
+            preview_image_url='https://imgur.com/cZkEwWp.jpg',
         ) 
         message6 = TextSendMessage(
         text="愛的迫降",
@@ -1225,7 +1225,7 @@ def handle_message(event):
             preview_image_url=u'https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
             sender=Sender(
                 name="阿璞",
-                icon_url="https://instagram.ftpe14-1.fna.fbcdn.net/v/t51.2885-15/e35/c315.0.810.810a/s320x320/238260467_548321549720023_2370298430000096694_n.jpg?_nc_ht=instagram.ftpe14-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=sk-2vRI8KGoAX_ZQ9oE&edm=ABfd0MgBAAAA&ccb=7-4&oh=7e63d19b76b2ba25c498f38f905e50db&oe=6144DEA6&_nc_sid=7bff83")
+                icon_url="https://imgur.com/5n8V1yV.png")
         )
         message8 = TextSendMessage(
         text="浪漫醫生金師傅2",
@@ -1233,7 +1233,7 @@ def handle_message(event):
             name="阿布",
             icon_url="https://i.imgur.com/q4Ar2Wr.jpg")
         )
-        messages = [message1, message2, message3, message4]
+        messages = [message1, message2, message3, message4, message5, message6, message7,message8]
         line_bot_api.reply_message(event.reply_token, messages)
     if event.message.text == "chi":
         content=dramac()
