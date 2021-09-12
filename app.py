@@ -2,6 +2,7 @@ import requests
 import re
 import random
 import configparser
+import time
 import  json, ssl, urllib.request
 import  urllib.request,csv
 from bs4 import BeautifulSoup
@@ -1095,6 +1096,31 @@ def handle_message(event):
     if event.message.text == "tai":
         a=dramat()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
+        return 0
+
+    if event.message.text == "雷達回波":
+        result = time.localtime()
+        minute=result.tm_min
+        hour=result.tm_hour
+        year=result.tm_year
+        month=result.tm_mon
+        date=result.tm_mday
+        if month<10:
+            month='0'+str(month)
+        if 60>=minute>=45:
+            minute='30'
+        else:
+            minute='00'
+        url2 = 'https://www.cwb.gov.tw/Data/radar/CV1_3600_%d'%(year)
+        url= url2 + str(month) + str(date) + str(hour) + str(minute) + '.png'
+
+        
+        image_message = ImageSendMessage(
+            original_content_url=url,
+            preview_image_url=url
+        )
+        line_bot_api.reply_message(
+            event.reply_token, image_message)
         return 0
 
     if event.message.text == "chi":
