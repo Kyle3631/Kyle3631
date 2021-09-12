@@ -1126,6 +1126,63 @@ def handle_message(event):
         #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=urlll))
         return 0
 
+    if event.message.text == "最大紫外線":
+        urlll= 'https://www.cwb.gov.tw/Data/UVI/UVI_Max.png'
+        image_message = ImageSendMessage(
+            original_content_url=urlll,
+            preview_image_url=urlll
+        )
+        line_bot_api.reply_message(
+            event.reply_token, image_message)
+        
+        #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=urlll))
+        return 0
+
+    if event.message.text == "即時紫外線":
+        urlll= 'https://www.cwb.gov.tw/Data/UVI/UVI.png'
+        image_message = ImageSendMessage(
+            original_content_url=urlll,
+            preview_image_url=urlll
+        )
+        line_bot_api.reply_message(
+            event.reply_token, image_message)
+        
+        #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=urlll))
+        return 0
+    if event.message.text == "綜合麵線":
+        urll= 'https://www.cwb.gov.tw/Data/UVI/UVI_Max.png'
+        urlll= beauty_hot()
+        message1 = ImageSendMessage(
+            original_content_url=urlll,
+            preview_image_url=urlll,
+            sender=Sender(
+                name="Google",
+                icon_url="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK")
+        )
+        message2 = ImageSendMessage(
+            original_content_url=urll,
+            preview_image_url=urll,
+            sender=Sender(
+                name="Apple",
+                icon_url="https://www.yusgroup.com.hk/wp-content/uploads/2012/03/Apple-Logo.jpg")
+        )
+        message3 = TextSendMessage(
+            text = ptt_gossiping(),
+            sender=Sender(
+                name="Amazon",
+                icon_url="https://pngimg.com/uploads/amazon/amazon_PNG27.png")
+        )
+        message4 = TextSendMessage(
+            text = ptt_hot(),
+            sender=Sender(
+                name="Facebook",
+                icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
+        )
+
+        messages = [message1, message2, message3, message4]
+        line_bot_api.reply_message(event.reply_token, messages)
+
+    
     if event.message.text == "chi":
         content=dramac()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
