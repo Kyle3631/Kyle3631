@@ -1222,7 +1222,7 @@ def handle_message(event):
         )
         message7 = ImageSendMessage(
             original_content_url='https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
-            preview_image_url=u'https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
+            preview_image_url='https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
             sender=Sender(
                 name="阿璞",
                 icon_url="https://imgur.com/5n8V1yV.png")
