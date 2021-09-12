@@ -1233,7 +1233,7 @@ def handle_message(event):
             name="阿布",
             icon_url="https://i.imgur.com/q4Ar2Wr.jpg")
         )
-        messages = [message1, message2, message3, message4, message5, message6, message7, message8]
+        messages = [message1, message2, message3, message4]
         line_bot_api.reply_message(event.reply_token, messages)
     if event.message.text == "chi":
         content=dramac()
