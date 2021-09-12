@@ -1150,7 +1150,6 @@ def handle_message(event):
         #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=urlll))
         return 0
     if event.message.text == "綜合麵線":
-        urll= 'https://www.cwb.gov.tw/Data/UVI/UVI_Max.png'
         urlll= beauty_hot()
         message1 = ImageSendMessage(
             original_content_url=urlll,
@@ -1160,20 +1159,22 @@ def handle_message(event):
                 icon_url="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK")
         )
         message2 = ImageSendMessage(
-            original_content_url=urll,
-            preview_image_url=urll,
+            original_content_url=urlll,
+            preview_image_url=urlll,
             sender=Sender(
                 name="Apple",
-                icon_url="https://www.yusgroup.com.hk/wp-content/uploads/2012/03/Apple-Logo.jpg")
+                icon_url="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1724px-Apple_logo_black.svg.png")
         )
-        message3 = TextSendMessage(
-            text = ptt_gossiping(),
+        message3 = ImageSendMessage(
+            original_content_url=urlll,
+            preview_image_url=urlll,
             sender=Sender(
                 name="Amazon",
                 icon_url="https://pngimg.com/uploads/amazon/amazon_PNG27.png")
         )
-        message4 = TextSendMessage(
-            text = ptt_hot(),
+        message4 = ImageSendMessage(
+            original_content_url=urlll,
+            preview_image_url=urlll,
             sender=Sender(
                 name="Facebook",
                 icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
@@ -1182,7 +1183,58 @@ def handle_message(event):
         messages = [message1, message2, message3, message4]
         line_bot_api.reply_message(event.reply_token, messages)
 
-    
+    if event.message.text == '推薦韓劇':
+        message1 = ImageSendMessage(
+            original_content_url='https://i.imgur.com/Tumxhpz.jpg',
+            preview_image_url='https://i.imgur.com/Tumxhpz.jpg',
+            sender=Sender(
+                name="Google",
+                icon_url="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK")
+        )
+        message2 = TextSendMessage(
+            text="德魯納酒店",
+            sender=Sender(
+                name="Apple",
+                icon_url="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1724px-Apple_logo_black.svg.png")
+        )
+        message3 = ImageSendMessage(
+            original_content_url='https://6.share.photo.xuite.net/willyopp/1616d87/20574820/1244294435_o.jpg',
+            preview_image_url='https://6.share.photo.xuite.net/willyopp/1616d87/20574820/1244294435_o.jpg',
+            sender=Sender(
+                name="Amazon",
+                icon_url="https://pngimg.com/uploads/amazon/amazon_PNG27.png")
+        )
+        message4 = TextSendMessage(
+        text="我的大叔",
+        sender=Sender(
+            name="Facebook",
+            icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
+        )
+        message5 = ImageSendMessage(
+            original_content_url='https://i0.wp.com/yenliving.com/wp-content/uploads/20200316143956_34.jpg?w=1440&ssl=1',
+            preview_image_url='https://i0.wp.com/yenliving.com/wp-content/uploads/20200316143956_34.jpg?w=1440&ssl=1',
+        ) 
+        message6 = TextSendMessage(
+        text="愛的迫降",
+        sender=Sender(
+            name="阿牛",
+            icon_url="https://i.imgur.com/EcIQPxV.jpg")
+        )
+        message7 = ImageSendMessage(
+            original_content_url='https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
+            preview_image_url=u'https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
+            sender=Sender(
+                name="阿璞",
+                icon_url="https://instagram.ftpe14-1.fna.fbcdn.net/v/t51.2885-15/e35/c315.0.810.810a/s320x320/238260467_548321549720023_2370298430000096694_n.jpg?_nc_ht=instagram.ftpe14-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=sk-2vRI8KGoAX_ZQ9oE&edm=ABfd0MgBAAAA&ccb=7-4&oh=7e63d19b76b2ba25c498f38f905e50db&oe=6144DEA6&_nc_sid=7bff83")
+        )
+        message8 = TextSendMessage(
+        text="浪漫醫生金師傅2",
+        sender=Sender(
+            name="阿布",
+            icon_url="https://i.imgur.com/q4Ar2Wr.jpg")
+        )
+        messages = [message1, message2, message3, message4, message5, message6, message7, message8]
+        line_bot_api.reply_message(event.reply_token, messages)
     if event.message.text == "chi":
         content=dramac()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
