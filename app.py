@@ -1116,9 +1116,14 @@ def handle_message(event):
             minute='00'
         url1 = 'https://www.cwb.gov.tw/Data/radar/CV1_3600_%d'%(year)
         urlll= url1 + str(month) + str(date) + str(hour) + str(minute) + '.png'
-
+        image_message = ImageSendMessage(
+            original_content_url=urlll,
+            preview_image_url=urlll
+        )
+        line_bot_api.reply_message(
+            event.reply_token, image_message)
         
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=urlll))
+        #line_bot_api.reply_message(event.reply_token,TextSendMessage(text=urlll))
         return 0
 
     if event.message.text == "chi":
