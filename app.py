@@ -47,7 +47,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
 
-    return '哈囉! 阿叔'
+    return 'hi'
 
 
 def pattern_mega(text):
