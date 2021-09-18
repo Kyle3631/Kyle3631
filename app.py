@@ -924,6 +924,8 @@ def handle_message(event):
     outInfo = ''
     if event.message.text == '奶子' :
         outInfo += getHtmlImgUrl(getSebUrl('https://www.mzitu.com/tag/baoru/'))
+        message = TextSendMessage(text=outInfo)
+        line_bot_api.reply_message(event.reply_token,message)
 
     if event.message.text == "正妹圖片":
         
