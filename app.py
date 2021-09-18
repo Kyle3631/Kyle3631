@@ -58,80 +58,6 @@ def pattern_mega(text):
         if re.search(pattern, text, re.IGNORECASE):
             return True
 
-'''
-def eyny_movie():
-    target_url = 'http://www.eyny.com/forum-205-1.html'
-    print('Start parsing eynyMovie....')
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    content = ''
-    for titleURL in soup.select('.bm_c tbody .xst'):
-        if pattern_mega(titleURL.text):
-            title = titleURL.text
-            if '11379780-1-3' in titleURL['href']:
-                continue
-            link = 'http://www.eyny.com/' + titleURL['href']
-            data = '{}\n{}\n\n'.format(title, link)
-            content += data
-    return content
-
-
-def apple_news():
-    target_url = 'https://tw.appledaily.com/new/realtime'
-    print('Start parsing appleNews....')
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    content = ""
-    for index, data in enumerate(soup.select('.rtddt a'), 0):
-        if index == 5:
-            return content
-        link = data['href']
-        content += '{}\n\n'.format(link)
-    return content
-'''
-
-
-def getSebUrl(url):
-    # 瀏覽器請求頭（大部分網站沒有這個請求頭可能會報錯）
-    print(url)
-    mheaders = {
-        'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
-    req = request.Request(url,headers=mheaders) #新增headers避免伺服器拒絕非瀏覽器訪問
-    page = request.urlopen(req)
-    html = page.read()
-    soup = BeautifulSoup(html.decode('utf-8'), 'html.parser')
-    body = soup.find(id="pins")
-    link = body.find_all("li")
-    next_link = []
-    for li_element in link:
-        # print(li_element.find('a').get('href'))
-        next_link.append(li_element.find('a').get('href'))
-
-    num = random.randint(1, len(next_link)-1)
-
-    return next_link[num]  # python3 python2版本直接返回html
-def getHtmlImgUrl(url):
-    print(url)
-    index = []
-    mheaders = {
-        'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
-    req = request.Request(url, headers=mheaders)  # 新增headers避免伺服器拒絕非瀏覽器訪問
-    page = request.urlopen(req)
-    html = page.read()
-    soup = BeautifulSoup(html.decode('utf-8'), 'html.parser')
-    body = soup.find(class_="pagenavi")
-    page = body.find_all("a")
-
-    for page_element in page:
-        # print(page_element.get('href').split('/'))
-        element = page_element.get('href').split('/')
-        if element[len(element)-1] != "":
-            index.append(int(element[len(element)-1]))
-
-    return url+"/"+str(random.randint(1, index[4]))
-
 def drama():
     target_url = 'https://777tv.app/vod/type/id/20.html'
     rs = requests.session()
@@ -921,11 +847,7 @@ def handle_message(event):
             event.reply_token, image_message)
         return 0
         '''
-    outInfo = ''
-    if event.message.text == '奶子' :
-        outInfo += getHtmlImgUrl(getSebUrl('https://www.mzitu.com/tag/baoru/'))
-        message = TextSendMessage(text=outInfo)
-        line_bot_api.reply_message(event.reply_token,message)
+
 
     if event.message.text == "正妹圖片":
         
@@ -1281,7 +1203,14 @@ def handle_message(event):
         a=movie777()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
-
+    if event.message.text=="123321":
+        image_message = ImageSendMessage(
+            original_content_url="https://tbweb.iimzt.com/thumbs/2020/10/248960_450.jpg",
+            preview_image_url="https://tbweb.iimzt.com/thumbs/2020/10/248960_450.jpg"
+        )
+        line_bot_api.reply_message(
+            event.reply_token, image_message)
+        return 0
 
     if event.message.text == "奧運":
         a=sport2020()
