@@ -1205,7 +1205,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
-    if event.message.text=="ㄋ":
+    if event.message.text=="哈哈哈":
         url = 'https://www.mzitu.com/zipai/'
         rand=random.randrange(13305, 13325)
 
@@ -1227,14 +1227,14 @@ def handle_message(event):
         id='div-comment-'+str(rand)
 
 
-        all_a = soup.find('div',id=id).find_all('img',class_='lazy')
+        a = soup.find('div',id=id).find_all('img',class_='lazy')
 
-        for a in all_a:
-            title = a['data-original'] #提取文字
-            print(title)
+        
+        all = a['data-original'] #提取文字
+        
         image_message = ImageSendMessage(
-            original_content_url=title,
-            preview_image_url=title
+            original_content_url=all,
+            preview_image_url=all
         )
         line_bot_api.reply_message(
             event.reply_token, image_message)
