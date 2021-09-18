@@ -725,23 +725,7 @@ def carrank():
         link =  data['href']
         content += '{}\n{}\n'.format(title, link)
     return content
-'''
-def movie():
-    target_url = 'http://www.atmovies.com.tw/movie/next/0/'
-    print('Start parsing movie ...')
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
-    res.encoding = 'utf-8'
-    soup = BeautifulSoup(res.text, 'html.parser')
-    content = ""
-    for index, data in enumerate(soup.select('ul.filmNextListAll a')):
-        if index == 20:
-            return content
-        title = data.text.replace('\t', '').replace('\r', '')
-        link = "http://www.atmovies.com.tw" + data['href']
-        content += '{}\n{}\n'.format(title, link)
-    return content
-'''
+
 
 def technews():
     target_url = 'https://technews.tw/'
@@ -795,22 +779,7 @@ def handle_message(event):
     print("event.reply_token:", event.reply_token)
     print("event.message.text:", event.message.text)
     '''
-    if event.message.text.lower() == "eyny":
-        content = eyny_movie()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
-        return 0
-    
-    if event.message.text == "蘋果即時新聞":
-        content = movie()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
-        return 0
-    
-    
-        
+   
     if event.message.text == 'PTT 表特版 近期大於 10 推的文章':
         content = ptt_beauty()
         line_bot_api.reply_message(
@@ -836,18 +805,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token, image_message)
         return 0
-        '''
-    if event.message.text == "正妹圖片":
-        image = requests.get(API_Get_Image)
-        url = image.json().get('Url')
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        line_bot_api.reply_message(
-            event.reply_token, image_message)
-        return 0
-        '''
+        
 
 
     if event.message.text == "正妹圖片":
@@ -952,20 +910,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='此功能尚未開放'))
         return 0
-    '''
-    if event.message.text == "觸電網-youtube":
-        target_url = 'https://www.youtube.com/user/truemovie1/videos'
-        rs = requests.session()
-        res = rs.get(target_url, verify=False)
-        soup = BeautifulSoup(res.text, 'html.parser')
-        seqs = ['https://www.youtube.com{}'.format(data.find('a')['href']) for data in soup.select('.yt-lockup-title')]
-        line_bot_api.reply_message(
-            event.reply_token, [
-                TextSendMessage(text=seqs[random.randint(0, len(seqs) - 1)]),
-                TextSendMessage(text=seqs[random.randint(0, len(seqs) - 1)])
-            ])
-        return 0
-    '''
+    
     if event.message.text == "科技新報":
         content = technews()
         line_bot_api.reply_message(
