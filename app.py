@@ -18,7 +18,7 @@ from linebot.exceptions import (
 from linebot.models import *
 #PTT 表特版 近期大於 10 推的文章 此功能尚未開放
 app = Flask(__name__)
-config = configparser.ConfigParser()
+config = configparser.ConfigParser()#895 94
 config.read("config.ini")
 
 line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
@@ -30,6 +30,7 @@ API_Get_Image = config['other_api']['API_Get_Image']
 
 
 @app.route("/callback", methods=['POST'])
+
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
@@ -90,6 +91,59 @@ def apple_news():
         content += '{}\n\n'.format(link)
     return content
 '''
+def imageInfo(url):
+    print('IG url:' + url)
+    imageUrl = ""
+    resp = requests.get(url)
+    soup = BeautifulSoup(resp.text, 'html.parser')
+    image = soup.find("meta", property="og:image")
+
+    imageUrl = image["content"]
+    print('image url:' + imageUrl)
+
+    return imageUrl
+
+def getCk101Url(url):
+    print("getCk101Url url:" + url)
+    # 瀏覽器請求頭（大部分網站沒有這個請求頭可能會報錯）
+    index = []
+    mheaders = {
+        'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
+    req = request.Request(url,headers=mheaders) #新增headers避免伺服器拒絕非瀏覽器訪問
+    page = request.urlopen(req)
+    html = page.read()
+    soup = BeautifulSoup(html.decode('utf-8'), 'html.parser')
+    main = soup.find('div','bt-main-cont')
+    search_li = main.find_all('li')
+    for li in search_li:
+        element = li.find('a').get('href')
+        if not element is None:
+            index.append(element)
+
+    getOne = index[random.randint(0, len(index)-1)]
+    print("getCk101Url back url :" + getOne)
+    return getOne
+
+def getCk101Photo(url):
+    print("photo url:"+url)
+    index = []
+    mheaders = {
+        'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
+    req = request.Request(url, headers=mheaders)  # 新增headers避免伺服器拒絕非瀏覽器訪問
+    page = request.urlopen(req)
+    html = page.read()
+    soup = BeautifulSoup(html.decode('utf-8'), 'html.parser')
+    main_table = soup.find(id = 'lightboxwrap')
+    img_all = main_table.find_all('img')
+
+    for img in img_all:
+        element = img.get('file')
+        if not element is None:
+            index.append(element)
+
+    getOne = index[random.randint(0, len(index)-1)]
+    print("photo back url :" + getOne)
+    return getOne
 
 def drama():
     target_url = 'https://777tv.app/vod/type/id/20.html'
@@ -880,7 +934,37 @@ def handle_message(event):
             event.reply_token, image_message)
         return 0
         '''
+    if 'https://www.instagram.com' in event.message.text:
+        # 返回含圖片Message
+        imageUrl = ''
+        imageUrl += imageInfo(event.message.text)
 
+        if imageUrl != '':
+            message = ImageSendMessage(
+                original_content_url=imageUrl,
+                preview_image_url=imageUrl
+            )
+            line_bot_api.reply_message(
+                event.reply_token,
+                message)
+
+
+    if '!妹子' in event.message.text:
+        imageBase = getCk101Url('https://ck101.com/beauty/')
+        imageUrl = getCk101Photo(imageBase)
+        print('imageUrl' + imageUrl)
+        if imageUrl != '':
+            message = ImageSendMessage(
+                original_content_url=imageUrl,
+                preview_image_url=imageUrl
+            )
+            textMessage = TextSendMessage(text=imageBase)
+            listMessage = [message,textMessage]
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                listMessage)
+                
     if event.message.text == "正妹圖片":
         
         url=beauty_hot()
@@ -1105,6 +1189,8 @@ def handle_message(event):
         year=result.tm_year
         month=result.tm_mon
         date=result.tm_mday
+        if hour<10:
+            hour='0'+str(hour)
         if month<10:
             month='0'+str(month)
         if 60>=minute>=45:
@@ -1192,24 +1278,24 @@ def handle_message(event):
             original_content_url='https://i.imgur.com/Tumxhpz.jpg',
             preview_image_url='https://i.imgur.com/Tumxhpz.jpg',
             sender=Sender(
-                name="Google",
-                icon_url="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK")
+                name="이지은",
+                icon_url="https://p1-tt.byteimg.com/origin/pgc-image/2bcd21eb1a4c46e59303feba09b3ed12?from=pc.jpg")
         )
         
         message3 = ImageSendMessage(
             original_content_url='https://6.share.photo.xuite.net/willyopp/1616d87/20574820/1244294435_o.jpg',
             preview_image_url='https://6.share.photo.xuite.net/willyopp/1616d87/20574820/1244294435_o.jpg',
             sender=Sender(
-                name="Facebook",
-                icon_url="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png")
+                name="dlwlrma",
+                icon_url="https://imgur.com/xFe4ySc.jpg")
         )
         
         message5 = ImageSendMessage(
             original_content_url='https://imgur.com/cZkEwWp.jpg',
             preview_image_url='https://imgur.com/cZkEwWp.jpg',
             sender=Sender(
-                name="阿牛",
-                icon_url="https://i.imgur.com/EcIQPxV.jpg")
+                name="玄彬",
+                icon_url="https://imgur.com/99VtMrs.jpg")
         
         ) 
         
@@ -1217,8 +1303,8 @@ def handle_message(event):
             original_content_url='https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
             preview_image_url='https://i.kfs.io/playlist/global/66520976v1/fit/500x500.jpg',
             sender=Sender(
-                name="阿璞",
-                icon_url="https://imgur.com/iKwrTXa.jpg")
+                name="이성경",
+                icon_url="https://imgur.com/XQjAvQ0.jpg")
         )
         
         messages = [ message1, message3, message5, message7]
