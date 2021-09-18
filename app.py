@@ -404,21 +404,6 @@ def sport_news():
         content += '{}\n{}\n'.format(title, link)
     return content
 
-def sport2020():
-    target_url = 'https://www.sportsv.net/'
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
-    res.encoding = 'utf-8'
-    soup = BeautifulSoup(res.text, 'html.parser')   
-    content = ""
-    for index, data in enumerate(soup.select('div.list')):
-        if index == 20:
-            return content       
-        title = data.text
-        link =  data['href']
-        content += '{}\n{}\n'.format(title, link)
-    return content
-
 def get_page_number(content):
     start_index = content.find('index')
     end_index = content.find('.html')
@@ -1183,11 +1168,6 @@ def handle_message(event):
         )
         line_bot_api.reply_message(
             event.reply_token, image_message)
-        return 0
-
-    if event.message.text == "奧運":
-        a=sport2020()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
 
     if event.message.text == "幫我開燈":
