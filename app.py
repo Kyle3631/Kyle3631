@@ -17,9 +17,9 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
-#PTT 表特版 近期大於 10 推的文章 此功能尚未開放
+
 app = Flask(__name__)
-config = configparser.ConfigParser()#895 94
+config = configparser.ConfigParser()
 config.read("config.ini")
 
 line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
