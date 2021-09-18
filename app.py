@@ -91,41 +91,29 @@ def apple_news():
         content += '{}\n\n'.format(link)
     return content
 '''
-def imageInfo(url):
-    print('IG url:' + url)
-    imageUrl = ""
-    resp = requests.get(url)
-    soup = BeautifulSoup(resp.text, 'html.parser')
-    image = soup.find("meta", property="og:image")
 
-    imageUrl = image["content"]
-    print('image url:' + imageUrl)
 
-    return imageUrl
-
-def getCk101Url(url):
-    print("getCk101Url url:" + url)
+def getSebUrl(url):
     # 瀏覽器請求頭（大部分網站沒有這個請求頭可能會報錯）
-    index = []
+    print(url)
     mheaders = {
         'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
     req = request.Request(url,headers=mheaders) #新增headers避免伺服器拒絕非瀏覽器訪問
     page = request.urlopen(req)
     html = page.read()
     soup = BeautifulSoup(html.decode('utf-8'), 'html.parser')
-    main = soup.find('div','bt-main-cont')
-    search_li = main.find_all('li')
-    for li in search_li:
-        element = li.find('a').get('href')
-        if not element is None:
-            index.append(element)
+    body = soup.find(id="pins")
+    link = body.find_all("li")
+    next_link = []
+    for li_element in link:
+        # print(li_element.find('a').get('href'))
+        next_link.append(li_element.find('a').get('href'))
 
-    getOne = index[random.randint(0, len(index)-1)]
-    print("getCk101Url back url :" + getOne)
-    return getOne
+    num = random.randint(1, len(next_link)-1)
 
-def getCk101Photo(url):
-    print("photo url:"+url)
+    return next_link[num]  # python3 python2版本直接返回html
+def getHtmlImgUrl(url):
+    print(url)
     index = []
     mheaders = {
         'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
@@ -133,17 +121,16 @@ def getCk101Photo(url):
     page = request.urlopen(req)
     html = page.read()
     soup = BeautifulSoup(html.decode('utf-8'), 'html.parser')
-    main_table = soup.find(id = 'lightboxwrap')
-    img_all = main_table.find_all('img')
+    body = soup.find(class_="pagenavi")
+    page = body.find_all("a")
 
-    for img in img_all:
-        element = img.get('file')
-        if not element is None:
-            index.append(element)
+    for page_element in page:
+        # print(page_element.get('href').split('/'))
+        element = page_element.get('href').split('/')
+        if element[len(element)-1] != "":
+            index.append(int(element[len(element)-1]))
 
-    getOne = index[random.randint(0, len(index)-1)]
-    print("photo back url :" + getOne)
-    return getOne
+    return url+"/"+str(random.randint(1, index[4]))
 
 def drama():
     target_url = 'https://777tv.app/vod/type/id/20.html'
@@ -934,37 +921,10 @@ def handle_message(event):
             event.reply_token, image_message)
         return 0
         '''
-    if 'https://www.instagram.com' in event.message.text:
-        # 返回含圖片Message
-        imageUrl = ''
-        imageUrl += imageInfo(event.message.text)
+    outInfo = ''
+    if event.message.text == '奶子' :
+        outInfo += getHtmlImgUrl(getSebUrl('https://www.mzitu.com/tag/baoru/'))
 
-        if imageUrl != '':
-            message = ImageSendMessage(
-                original_content_url=imageUrl,
-                preview_image_url=imageUrl
-            )
-            line_bot_api.reply_message(
-                event.reply_token,
-                message)
-
-
-    if '!妹子' in event.message.text:
-        imageBase = getCk101Url('https://ck101.com/beauty/')
-        imageUrl = getCk101Photo(imageBase)
-        print('imageUrl' + imageUrl)
-        if imageUrl != '':
-            message = ImageSendMessage(
-                original_content_url=imageUrl,
-                preview_image_url=imageUrl
-            )
-            textMessage = TextSendMessage(text=imageBase)
-            listMessage = [message,textMessage]
-
-            line_bot_api.reply_message(
-                event.reply_token,
-                listMessage)
-                
     if event.message.text == "正妹圖片":
         
         url=beauty_hot()
@@ -1279,7 +1239,7 @@ def handle_message(event):
             preview_image_url='https://i.imgur.com/Tumxhpz.jpg',
             sender=Sender(
                 name="이지은",
-                icon_url="https://p1-tt.byteimg.com/origin/pgc-image/2bcd21eb1a4c46e59303feba09b3ed12?from=pc.jpg")
+                icon_url="https://imgsrv2.voi.id/vOIwpFhgnJLobPY82WbbZrXlIQwW5vl_vTAJ0D8MYQE/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy9jOGFmMTIyZC01ZmFiLTRkNTktOThhZC0wNTJjZDMwMGIzMjgvMjAyMDA1MTcxMDAzLW1haW4uY3JvcHBlZF8xNTg5Njg0NjQ0LmpwZw.jpg")
         )
         
         message3 = ImageSendMessage(
