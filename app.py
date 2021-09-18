@@ -1,6 +1,7 @@
 import requests
 import re
 import random
+from fake_useragent import UserAgent
 import configparser
 import time
 import  json, ssl, urllib.request
@@ -1203,10 +1204,37 @@ def handle_message(event):
         a=movie777()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=a))
         return 0
-    if event.message.text=="123321":
+
+    if event.message.text=="ㄋ":
+        url = 'https://www.mzitu.com/zipai/'
+        rand=random.randrange(13305, 13325)
+
+        # 替换随机请求头
+        ua = UserAgent()
+        headers = {'User-Agent': ua.random}
+
+        headers = {
+            'Referer': 'https://www.mzitu.com/',
+            'Sec-Fetch-Mode': 'no-cors',
+            'User-Agent': ua.random
+        }
+        html = requests.get(url,headers = headers)
+
+        #使用自帶的html.parser解析，速度慢但通用
+        soup = BeautifulSoup(html.text,'html.parser')
+
+        #實際上是第一個class = 'postlist'的div裡的所有a 標籤是我們要找的資訊
+        id='div-comment-'+str(rand)
+
+
+        all_a = soup.find('div',id=id).find_all('img',class_='lazy')
+
+        for a in all_a:
+            title = a['data-original'] #提取文字
+            print(title)
         image_message = ImageSendMessage(
-            original_content_url="https://tbweb.iimzt.com/thumbs/2020/10/248960_450.jpg",
-            preview_image_url="https://tbweb.iimzt.com/thumbs/2020/10/248960_450.jpg"
+            original_content_url=title,
+            preview_image_url=title
         )
         line_bot_api.reply_message(
             event.reply_token, image_message)
